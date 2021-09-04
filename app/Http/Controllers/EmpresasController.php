@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Empresas;
+use App\Models\Pruebas;
 
 class EmpresasController extends Controller
 {
     public function index(){
 
+        $empresas = Pruebas::all();
+
+        dd($empresas);
 
         return view('empresas.index');
 
