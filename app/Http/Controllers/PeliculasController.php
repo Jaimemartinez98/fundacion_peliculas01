@@ -3,19 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Empresas;
+use App\Models\Peliculas;
+use Illuminate\Support\Facades\DB;
 
 class PeliculasController extends Controller
 {
     public function index(){
-        //Muestra la pagina principal o una lista de las empresas (Trae información)
+
+        $peliculas = DB::table('peliculas AS p')
+                ->select('p.id','p.nombre_pelicula','e.nombre_empresa')
+                ->join('empresas AS e', 'p.empresa_id', '=', 'e.id')
+                ->get();
+
+        return view('peliculas.index', [
+            'peliculas' => $peliculas,
+        ]);
+
     }
 
     public function create(){
-        //Va a mostrarme un formulario donde luego se introduciran datos
+
+        $empresas = Empresas::all();
+
+        return view('peliculas.crear_pelicula', [
+            'empresas' => $empresas,
+        ]);
+
     }
 
     public function store(Request $request){
-        //Introduce datos en la base datos 
+
+        $pelicula = new Peliculas;
+        $pelicula->nombre_pelicula = $request->nombre_pelicula;
+        $pelicula->director = $request->director;
+        $pelicula->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $pelicula->sinopsis = $request->sinopsis;
+        $pelicula->correo_contacto = $request->correo_contacto;
+        $pelicula->empresa_id = $request->empresa_id;
+        $pelicula->save();
+
+        return back();
+
     }
 
     public function show($id){
@@ -23,15 +52,36 @@ class PeliculasController extends Controller
     }
 
     public function edit($id){
-        //Muestra un registro especifico pero permite agregar información o actualizar la existente
+
+        $empresas = Empresas::all();
+        $pelicula = Peliculas::where('id',$id)->first();
+
+        return view('peliculas.edit_pelicula', [
+            'pelicula' => $pelicula,
+            'empresas' => $empresas,
+        ]);
+
     }
 
-    public function update($id){
-        //Actualiza un registro en la base de datos
+    public function update(Request $request,$id){
+
+        $pelicula = Peliculas::findOrFail($id);
+        $pelicula->nombre_pelicula = $request->nombre_pelicula;
+        $pelicula->director = $request->director;
+        $pelicula->fecha_lanzamiento = $request->fecha_lanzamiento;
+        $pelicula->sinopsis = $request->sinopsis;
+        $pelicula->correo_contacto = $request->correo_contacto;
+        $pelicula->empresa_id = $request->empresa_id;
+        $pelicula->save();
+
+        return back();
+
     }
 
     public function delete($id){
-        //Elimina un registro en la base de datos
+
+        Peliculas::where('id',$id)->delete();
+        return back();
     }
 
 }

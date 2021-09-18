@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresas;
-use App\Models\Pruebas;
+
 
 class EmpresasController extends Controller
 {
     public function index(){
 
-        $empresas = Pruebas::all();
+        $empresas = Empresas::all();
 
-        dd($empresas);
 
-        return view('empresas.index');
+
+        return view('empresas.index', [
+            'empresas' => $empresas,
+        ]);
 
     }
 
@@ -23,7 +25,18 @@ class EmpresasController extends Controller
     }
 
     public function store(Request $request){
-        //Introduce datos en la base datos
+
+        $empresa = new Empresas;
+        $empresa->nombre_empresa = $request->nombre_empresa;
+        $empresa->direccion = $request->direccion_empresa;
+        $empresa->nit = $request->nit_empresa;
+        $empresa->telefono = $request->telefono;
+        $empresa->correo_contacto = $request->correo_contacto;
+        $empresa->save();
+
+        return back();
+
+
     }
 
     public function show($id){
@@ -32,14 +45,33 @@ class EmpresasController extends Controller
 
     public function edit($id){
         //Muestra un registro especifico pero permite agregar información o actualizar la existente
+        $empresa = Empresas::where('id',$id)->first();
+
+        return view('empresas.edit_empresa', [
+            'empresa' => $empresa,
+        ]);
+
+
     }
 
-    public function update($id){
-        //Actualiza un registro en la base de datos
+    public function update(Request $request, $id){
+
+        $empresa = Empresas::findOrFail($id);
+        $empresa->nombre_empresa = $request->nombre_empresa;
+        $empresa->direccion = $request->direccion_empresa;
+        $empresa->nit = $request->nit_empresa;
+        $empresa->telefono = $request->telefono;
+        $empresa->correo_contacto = $request->correo_contacto;
+        $empresa->save();
+
+        return back();
     }
 
     public function delete($id){
-        //Elimina un registro en la base de datos
+
+        Empresas::where('id',$id)->delete();
+        return back();
+
     }
 
 

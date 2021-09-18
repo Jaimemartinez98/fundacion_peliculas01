@@ -31,6 +31,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('empresas.create')}}">Agregar Empresa</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('peliculas.index')}}">Listar Peliculas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('peliculas.create')}}">Agregar Pelicula</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
