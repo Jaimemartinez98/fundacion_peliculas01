@@ -34,6 +34,8 @@
             </div>
 
             <div class="col-12">
+                <label for="empresa_id" class="form-label">Empresa</label>
+
                 <select class="form-select" aria-label="Default select example" name="empresa_id">
 
                     <option selected>Seleccione la empresa de la pelicula</option>
