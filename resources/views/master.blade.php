@@ -22,21 +22,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('empresas.index')}}">Listar Empresas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('empresas.create')}}">Agregar Empresa</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('peliculas.index')}}">Listar Peliculas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('peliculas.create')}}">Agregar Pelicula</a>
-                    </li>
+                    @if (auth()->user()->perfil_id == 1 || auth()->user()->perfil_id == 2)
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->perfil_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('empresas.index') }}">Listar Empresas</a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->perfil_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('empresas.create') }}">Agregar Empresa</a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->perfil_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('peliculas.index') }}">Listar Peliculas</a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->perfil_id == 1)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('peliculas.create') }}">Agregar Pelicula</a>
+                        </li>
+                    @endif
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
