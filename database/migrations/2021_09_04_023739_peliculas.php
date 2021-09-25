@@ -20,6 +20,7 @@ class Peliculas extends Migration
             $table->date('fecha_lanzamiento');
             $table->text('sinopsis');
             $table->string('correo_contacto', 100);
+            $table->string('caratula', 255);
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->timestamps();

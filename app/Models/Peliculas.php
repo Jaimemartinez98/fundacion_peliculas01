@@ -12,6 +12,15 @@ class Peliculas extends Model
     protected $table = 'peliculas';
 
     protected $fillable = [
-        'id','nombre_pelicula','director','fecha_lanzamiento','sinopsis','correcto_contacto','empresa_id','created_at','updated_at'
+        'id',
+        'nombre_pelicula',
+        'director',
+        'caratula',
+        'fecha_lanzamiento',
+        'sinopsis',
+        'correcto_contacto',
+        'empresa_id',
+        'created_at',
+        'updated_at'
     ];
 }

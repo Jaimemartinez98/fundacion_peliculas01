@@ -34,6 +34,28 @@ class PeliculasController extends Controller
 
     public function store(Request $request){
 
+        $request->validate([
+            'nombre_pelicula' => 'required|max:500',
+            'director' => 'required|max:500',
+            'fecha_lanzamiento' => 'required|date',
+            'sinopsis' => 'required',
+            'correo_contacto' => 'required|max:500|email',
+            'empresa_id' => 'required',
+            'archivo' => 'required',
+        ]
+        ,
+        [
+            'nombre_pelicula.required' => 'El nombre de la pelicula es requerido',
+            'director.required' => 'El director es requerido',
+            'fecha_lanzamiento.required' => 'La fecha de lanzamiento es requerida',
+            'sinopsis.required' => 'La sinopsis es requerida',
+            'correo_contacto.required' => 'El correo es requerido',
+            'correo_contacto.email' => 'El correo debe ser correcto ej. prueba@example.com',
+            'empresa_id.required' => 'La empresa es requerida',
+            'archivo.required' => 'El archivo es requerido',
+        ]
+        );
+
         $pelicula = new Peliculas;
         $pelicula->nombre_pelicula = $request->nombre_pelicula;
         $pelicula->director = $request->director;
@@ -41,9 +63,22 @@ class PeliculasController extends Controller
         $pelicula->sinopsis = $request->sinopsis;
         $pelicula->correo_contacto = $request->correo_contacto;
         $pelicula->empresa_id = $request->empresa_id;
+
+
+
+        if ($request->hasFile("archivo")) {
+            $file = $request->file("archivo");
+
+            $nombre = "archivo_".time().".".$file->guessExtension();
+
+            $ruta = public_path("files/".$nombre);
+
+            copy($file, $ruta);
+            $pelicula->caratula = $nombre;
+        }
         $pelicula->save();
 
-        return back();
+        return back()->with('message','La pelicula fue creada exitosamente!!!');
 
     }
 
@@ -65,6 +100,29 @@ class PeliculasController extends Controller
 
     public function update(Request $request,$id){
 
+
+        $request->validate([
+            'nombre_pelicula' => 'required|max:500',
+            'director' => 'required|max:500',
+            'fecha_lanzamiento' => 'required',
+            'sinopsis' => 'required',
+            'correo_contacto' => 'required|max:500|email',
+            'empresa_id' => 'required',
+            'archivo' => 'required',
+        ]
+        ,
+        [
+            'nombre_pelicula.required' => 'El nombre de la pelicula es requerido',
+            'director.required' => 'El director es requerido',
+            'fecha_lanzamiento.required' => 'La fecha de lanzamiento es requerida',
+            'sinopsis.required' => 'La sinopsis es requerida',
+            'correo_contacto.required' => 'El correo es requerido',
+            'correo_contacto.email' => 'El correo debe ser correcto ej. prueba@example.com',
+            'empresa_id.required' => 'La empresa es requerida',
+            'archivo.required' => 'El archivo es requerido',
+        ]
+        );
+
         $pelicula = Peliculas::findOrFail($id);
         $pelicula->nombre_pelicula = $request->nombre_pelicula;
         $pelicula->director = $request->director;
@@ -72,9 +130,20 @@ class PeliculasController extends Controller
         $pelicula->sinopsis = $request->sinopsis;
         $pelicula->correo_contacto = $request->correo_contacto;
         $pelicula->empresa_id = $request->empresa_id;
+        if ($request->hasFile("archivo")) {
+            $file = $request->file("archivo");
+
+            $nombre = "archivo_".time().".".$file->guessExtension();
+
+            $ruta = public_path("files/".$nombre);
+
+            copy($file, $ruta);
+            $pelicula->caratula = $nombre;
+        }
+
         $pelicula->save();
 
-        return back();
+        return back()->with('message','La pelicula fue actualizado exitosamente!!!');
 
     }
 
