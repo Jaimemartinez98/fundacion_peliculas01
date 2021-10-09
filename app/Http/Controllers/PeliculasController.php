@@ -83,7 +83,18 @@ class PeliculasController extends Controller
     }
 
     public function show($id){
-        //Muestra un registro especifico que esta almacenado en la base de datos pero no permite editar ni insertar datos
+
+        $empresas = Empresas::all();
+        $pelicula = Peliculas::where('id',$id)->first();
+
+        $peliculas = Peliculas::whereNotIn('id', [$id])->paginate(4);
+
+        return view('peliculas.ver_pelicula', [
+            'pelicula' => $pelicula,
+            'peliculas' => $peliculas,
+            'empresas' => $empresas,
+        ]);
+
     }
 
     public function edit($id){
